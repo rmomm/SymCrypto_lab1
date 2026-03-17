@@ -15,7 +15,9 @@ double calculateH1(const string& text) {
 
     for (auto& pair : freq) {
         double p = (double)pair.second / total;
-        H1 -= p * log2(p);
+        if (p > 0) {
+            H1 -= p * log2(p);
+        }
     }
 
     return H1;
@@ -42,7 +44,9 @@ double calculateH2(const string& text) {
 
     for (auto& pair : freq) {
         double p = (double)pair.second / total;
-        H2 -= p * log2(p);
+        if (p > 0) {
+            H2 -= p * log2(p);
+        }
     }
 
     return H2 / 2.0;
