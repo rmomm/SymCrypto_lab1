@@ -1,18 +1,35 @@
 #include "Header.h"
 
-double calculateH1(const string& text) {
+map<char, int> LetterFreq(const string& text) {
     map<char, int> freq;
-    int total = 0;
 
     for (char c : text) {
         if (c != ' ') {
             freq[c]++;
-            total++;
         }
     }
+    return freq;
+}
 
+map<string, int> BigramFreq(const string& text) {
+    map<string, int> freq;
+
+    for (size_t i = 0; i + 1 < text.size(); i++) {
+        if (text[i] == ' ' || text[i + 1] == ' ') {
+            continue;
+        }
+        string bg;
+        bg += text[i];
+        bg += text[i + 1];
+
+        freq[bg]++;
+    }
+    return freq;
+}
+
+
+double calculateH1(const map<char, int>& freq, int total) {
     double H1 = 0.0;
-
     for (auto& pair : freq) {
         double p = (double)pair.second / total;
         if (p > 0) {
@@ -23,25 +40,8 @@ double calculateH1(const string& text) {
     return H1;
 }
 
-double calculateH2(const string& text) {
-    map<string, int> freq;
-    int total = 0;
-
-    for (size_t i = 0; i + 1 < text.size(); i++) {
-        if (text[i] == ' ' || text[i + 1] == ' ') {
-            continue;
-        }
-
-        string bigram;
-        bigram += text[i];
-        bigram += text[i + 1];
-
-        freq[bigram]++;
-        total++;
-    }
-
+double calculateH2(const map<string, int>& freq, int total) {
     double H2 = 0.0;
-
     for (auto& pair : freq) {
         double p = (double)pair.second / total;
         if (p > 0) {
