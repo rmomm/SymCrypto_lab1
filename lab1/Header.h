@@ -20,6 +20,7 @@ double calculateH2(const map<string, int>& freq, int total);
 
 map<char, int> LetterFreq(const string& text);
 map<string, int> BigramFreq(const string& text);
-
+map<string, int> BigramFreqN(const string& text);
 void printLetters(const string& text, ofstream& out);
 void printBigram(const string& text, ofstream& out);
+void printBigramN(const string& text, ofstream& out);

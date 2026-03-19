@@ -4,9 +4,7 @@ map<char, int> LetterFreq(const string& text) {
     map<char, int> freq;
 
     for (char c : text) {
-        if (c != ' ') {
-            freq[c]++;
-        }
+        freq[c]++;
     }
     return freq;
 }
@@ -15,13 +13,21 @@ map<string, int> BigramFreq(const string& text) {
     map<string, int> freq;
 
     for (size_t i = 0; i + 1 < text.size(); i++) {
-        if (text[i] == ' ' || text[i + 1] == ' ') {
-            continue;
-        }
         string bg;
         bg += text[i];
         bg += text[i + 1];
 
+        freq[bg]++;
+    }
+    return freq;
+}
+
+map<string, int> BigramFreqN(const string& text) {
+    map<string, int> freq;
+    for (size_t i = 0; i + 1 < text.size(); i += 2) {
+        string bg;
+        bg += text[i];
+        bg += text[i + 1];
         freq[bg]++;
     }
     return freq;
