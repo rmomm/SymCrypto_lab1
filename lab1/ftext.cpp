@@ -19,23 +19,22 @@ string cleanText(const string& text) {
     for (char c : text) {
         c = tolower((unsigned char)c);
 
-        if (alphabet.find(c) != string::npos || c == ' ') {
-            result += c;
+        if (alphabet.find(c) != string::npos) {
+            result += c;       
+        }
+        else if (c == ' ') {
+            result += ' ';  
         }
     }
-
     return result;
 }
 
 void printLetters(const string& text, ofstream& out) {
     map<char, int> freq;
-    int total = 0;
+    int total = text.size();
 
     for (char c : text) {
-        if (c != ' ') {
-            freq[c]++;
-            total++;
-        }
+        freq[c]++;
     }
 
     vector<pair<char, double>> vec;
@@ -46,34 +45,28 @@ void printLetters(const string& text, ofstream& out) {
     }
 
     sort(vec.begin(), vec.end(), [](auto& a, auto& b) {
-        return a.second > b.second; 
+        return a.second > b.second;
         }
     );
 
     out << "Частоти букв:\n";
     for (auto& p : vec) {
-        out << p.first << " : " << p.second << "\n";
+        char dchar = (p.first == ' ') ? '_' : p.first;
+        out << dchar << " : " << p.second << "\n";
     }
 }
+
 
 void printBigram(const string& text, ofstream& out) {
     map<string, int> freq;
     set<char> letters;
 
     int total = 0;
-
     for (char c : text) {
-        if (c != ' ') {
-            letters.insert(c);
-        }
+         letters.insert(c);
     }
 
-    for (size_t i = 0; i + 1 < text.size(); i++)
-    {
-        if (text[i] == ' ' || text[i + 1] == ' ') {
-            continue;
-        }
-
+    for (size_t i = 0; i + 1 < text.size(); i++) {
         string bg;
         bg += text[i];
         bg += text[i + 1];
@@ -82,26 +75,66 @@ void printBigram(const string& text, ofstream& out) {
         total++;
     }
 
-
-    out << "\nМатриця біграм:\n   ";
+    out << "\nМатриця біграм (з перетином):\n   ";
 
     for (char c : letters) {
-        out << setw(7) << c;
+        char dchar = (c == ' ') ? '_' : c;
+        out << setw(9) << dchar;
     }
     out << "\n";
 
-    for (char row : letters)
-    {
-        out << setw(4) << row;
+    for (char row : letters) {
+        char drow = (row == ' ') ? '_' : row;
+        out << setw(6) << drow;
 
-        for (char col : letters)
-        {
+        for (char col : letters) {
             string bg;
             bg += row;
             bg += col;
 
             double prob = (double)freq[bg] / total;
-            out << setw(7) << fixed << setprecision(4) << prob;
+            out << setw(9) << fixed << setprecision(6) << prob;
+        }
+        out << "\n";
+    }
+}
+
+void printBigramN(const string& text, ofstream& out) {
+    map<string, int> freq;
+    set<char> letters;
+    int total = 0;
+
+    for (char c : text) {
+        letters.insert(c);
+    }
+
+    for (size_t i = 0; i + 1 < text.size(); i += 2) {
+        string bg;
+        bg += text[i];
+        bg += text[i + 1];
+        freq[bg]++;
+        total++;
+    }
+
+    out << "\nМатриця біграм (без перетину):\n   ";
+
+    for (char c : letters) {
+        char dchar = (c == ' ') ? '_' : c;
+        out << setw(9) << dchar;
+    }
+    out << "\n";
+
+    for (char row : letters) {
+        char drow = (row == ' ') ? '_' : row;
+        out << setw(6) << drow;
+
+        for (char col : letters) {
+            string bg;
+            bg += row;
+            bg += col;
+
+            double prob = (double)freq[bg] / total;
+            out << setw(9) << fixed << setprecision(6) << prob;
         }
         out << "\n";
     }

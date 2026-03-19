@@ -8,52 +8,71 @@ int main()
 
     ofstream out("result.txt");
 
-    auto charFreq = LetterFreq(cleaned);
-    auto bigramFreq = BigramFreq(cleaned);
+    auto ch = LetterFreq(cleaned);
+    auto bg = BigramFreq(cleaned);
+    auto bg_no = BigramFreqN(cleaned);
 
-    int totalChars = 0;
-    for (auto& p : charFreq) {
-        totalChars += p.second;
+    int total_ch = 0;
+    for (auto& p : ch) {
+        total_ch += p.second;
     }
 
-    int totalBigrams = 0;
-    for (auto& p : bigramFreq) {
-        totalBigrams += p.second;
+    int total_bg = 0;
+    for (auto& p : bg) {
+        total_bg += p.second;
     }
 
-    double H1 = calculateH1(charFreq, totalChars);
-    double H2 = calculateH2(bigramFreq, totalBigrams);
-
-    auto charFreq_ns = LetterFreq(noSpaces);
-    auto bigramFreq_ns = BigramFreq(noSpaces);
-
-    int totalChars_ns = 0;
-    for (auto& p : charFreq_ns) {
-        totalChars_ns += p.second;
+    int total_no = 0;
+    for (auto & p : bg_no) {
+        total_no += p.second;
     }
 
-    int totalBigrams_ns = 0;
-    for (auto& p : bigramFreq_ns) {
-        totalBigrams_ns += p.second;
+    double H1 = calculateH1(ch, total_ch);
+    double H2 = calculateH2(bg, total_bg);
+    double H2_no = calculateH2(bg_no, total_no);
+
+    auto ch_ns = LetterFreq(noSpaces);
+    auto bg_ns = BigramFreq(noSpaces);
+    auto bg_no_ns = BigramFreqN(noSpaces);
+
+    int total_ch_ns = 0;
+    for (auto& p : ch_ns) {
+        total_ch_ns += p.second;
     }
 
-    double H1_ns = calculateH1(charFreq_ns, totalChars_ns);
-    double H2_ns = calculateH2(bigramFreq_ns, totalBigrams_ns);
+    int total_bg_ns = 0;
+    for (auto& p : bg_ns) {
+        total_bg_ns += p.second;
+    }
 
+    int total_no_ns = 0;
+    for (auto& p : bg_no_ns) {
+        total_no_ns += p.second;
+    }
 
-    out << "Ç ÏÐÎÁ²ËÀÌÈ\n";
+    double H1_ns = calculateH1(ch_ns, total_ch_ns);
+    double H2_ns = calculateH2(bg_ns, total_bg_ns);
+    double H2_no_ns = calculateH2(bg_no_ns, total_no_ns);
+
+    out << fixed << setprecision(6);
+    out << "Ç ÏÐÎÁ²ËÀÌÈ \n";
     out << "H1 = " << H1 << "\n";
-    out << "H2 = " << H2 << "\n";
+    out << "H2 (ç ïåðåòèíîì) = " << H2 << "\n";
+    out << "H2 (áåç ïåðåòèíó) = " << H2_no << "\n";
 
     printLetters(cleaned, out);
     printBigram(cleaned, out);
+    printBigramN(cleaned, out);
 
-    out << "\nÁÅÇ ÏÐÎÁ²Ë²Â\n";
+    out << fixed << setprecision(6);
+    out << "\n ÁÅÇ ÏÐÎÁ²Ë²Â \n";
     out << "H1 = " << H1_ns << "\n";
-    out << "H2 = " << H2_ns << "\n";
+    out << "H2 (ç ïåðåòèíîì) = " << H2_ns << "\n";
+    out << "H2 (áåç ïåðåòèíó) = " << H2_no_ns<< "\n";
 
     printLetters(noSpaces, out);
     printBigram(noSpaces, out);
+    printBigramN(noSpaces, out);
 
     out.close();
 
