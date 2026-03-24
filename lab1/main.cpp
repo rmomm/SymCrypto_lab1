@@ -27,6 +27,7 @@ int main()
         total_no += p.second;
     }
 
+    
     double H1 = calculateH1(ch, total_ch);
     double H2 = calculateH2(bg, total_bg);
     double H2_no = calculateH2(bg_no, total_no);
@@ -54,7 +55,7 @@ int main()
     double H2_ns = calculateH2(bg_ns, total_bg_ns);
     double H2_no_ns = calculateH2(bg_no_ns, total_no_ns);
 
-    out << fixed << setprecision(6);
+    out << fixed << setprecision(8);
     out << "Ç ÏÐÎÁ²ËÀÌÈ \n";
     out << "H1 = " << H1 << "\n";
     out << "H2 (ç ïåðåòèíîì) = " << H2 << "\n";
@@ -64,7 +65,7 @@ int main()
     printBigram(cleaned, out);
     printBigramN(cleaned, out);
 
-    out << fixed << setprecision(6);
+    out << fixed << setprecision(8);
     out << "\n ÁÅÇ ÏÐÎÁ²Ë²Â \n";
     out << "H1 = " << H1_ns << "\n";
     out << "H2 (ç ïåðåòèíîì) = " << H2_ns << "\n";
